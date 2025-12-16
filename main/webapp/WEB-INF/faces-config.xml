@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<faces-config version="4.0"
+              xmlns="https://jakarta.ee/xml/ns/jakartaee"
+              xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+              xsi:schemaLocation="https://jakarta.ee/xml/ns/jakartaee https://jakarta.ee/xml/ns/jakartaee/web-facesconfig_4_0.xsd">
+
+   <application>
+     <locale-config>
+     <default-locale>es</default-locale>
+     <supported-locale>es</supported-locale>
+     <supported-locale>es_ES</supported-locale>
+     <supported-locale>ca</supported-locale>
+     <supported-locale>ca_CA</supported-locale>
+     <supported-locale>eu</supported-locale>
+     <supported-locale>eu_EU</supported-locale>
+     <supported-locale>gl</supported-locale>
+     <supported-locale>gl_GL</supported-locale>
+   </locale-config>
+   <resource-bundle>
+    <base-name>resources.mensajes</base-name>
+            <var>i18n</var>
+            </resource-bundle>
+  <message-bundle>resources.mensajes</message-bundle>
+  </application>
+    <navigation-rule>
+     <display-name>navegacion</display-name>   
+     <from-view-id>index.xhtml</from-view-id>   
+     <navigation-case>
+		<from-action>#{newJSFManagedBean.execute}</from-action>
+		<from-outcome>confirmacion</from-outcome>
+		<to-view-id>confirmacion.xhtml</to-view-id>
+	</navigation-case>
+    </navigation-rule>
+</faces-config>
+
