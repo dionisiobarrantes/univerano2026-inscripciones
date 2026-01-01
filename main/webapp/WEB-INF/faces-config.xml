@@ -24,11 +24,11 @@
   </application>
     <navigation-rule>
      <display-name>navegacion</display-name>   
-     <from-view-id>index.xhtml</from-view-id>   
+     <from-view-id>/index.xhtml</from-view-id>
      <navigation-case>
 		<from-action>#{newJSFManagedBean.execute}</from-action>
 		<from-outcome>confirmacion</from-outcome>
-		<to-view-id>confirmacion.xhtml</to-view-id>
+		<to-view-id>/confirmacion.xhtml</to-view-id>
 	</navigation-case>
     </navigation-rule>
 </faces-config>

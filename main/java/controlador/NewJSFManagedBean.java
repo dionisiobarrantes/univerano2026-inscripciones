@@ -80,6 +80,9 @@ public class NewJSFManagedBean implements Serializable
 @EJB TbModalidadEstanciaJpaController modalidadEstanciaDAO;     
 @EJB TbTarifaJpaController tarifaDAO;    
 @EJB TbPreciosJpaController preciosDAO;  
+    
+    @jakarta.inject.Inject
+    SendMailTLS correoConfirmacion; // El servidor lo crea por ti
 
 TbCcaa ccaa;
 TbOrientacionAlimentario orientacionAlimentaria;
@@ -103,7 +106,6 @@ Integer antes_despues;
 String correoElectronico2;
 Boolean pillado = Boolean.FALSE;
 String mensaje = ".";
-String copon = new String(".");
 String deshabilitador = "False";
 Boolean valorBooleano = Boolean.FALSE;
 String validate;
@@ -316,7 +318,7 @@ List<VistaPrecios>  listaVistaPrecios;
         }
       return importe_calculado;
      }
-    public List<TbModalidadEstancia> muestraModalidadEstancia(List<TbModalidadEstancia> listaModalidadEstancia) {
+    public List<TbModalidadEstancia> muestraModalidadEstancia() {
  //       listaModalidadEstancia = modalidadEstanciaDAO.findTbModalidadEstanciaEntities(); 
        listaModalidadEstancia = modalidadEstanciaDAO.findAllVisibles(); 
         this.listaModalidadEstancia = listaModalidadEstancia;
@@ -336,15 +338,9 @@ List<VistaPrecios>  listaVistaPrecios;
         return listaPrecios;
     }
     public List<TbTarifa> getListaTarifa() {
-        return listaTarifa;
-    } 
-    public void setListaTarifa(List<TbTarifa> listaTarifa) {
-        this.listaTarifa = listaTarifa;
-    }
-    
-    public List<TbTarifa> muestraListaTarifa() {
-        listaTarifa = tarifaDAO.findAllVisibles(); 
-         
+        if (listaTarifa == null) {
+            listaTarifa = tarifaDAO.findAllVisibles();
+        }
         return listaTarifa;
     }
 
@@ -397,7 +393,7 @@ List<VistaPrecios>  listaVistaPrecios;
         HttpServletRequest request = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest();
         jakarta.servlet.http.HttpSession session = (jakarta.servlet.http.HttpSession) request.getSession();
             
-        SendMailTLS correoConfirmacion = new SendMailTLS(FacesContext.getCurrentInstance().getExternalContext().getRequestLocale()); 
+//        SendMailTLS correoConfirmacion = new SendMailTLS(FacesContext.getCurrentInstance().getExternalContext().getRequestLocale()); 
         System.out.println(inscripcionActual.getIdInscripcion());
         correoConfirmacion.enviaCorreo(inscripcionActual.getIdInscripcion().toString(), inscripcionActual.getCorreoElectronico(), inscripcionActual.getImporteTotal().toString(),FacesContext.getCurrentInstance().getExternalContext().getRequestLocale() );
         setCorreoElectronico2(""); 
@@ -410,7 +406,13 @@ List<VistaPrecios>  listaVistaPrecios;
                 }
         return "confirmacion" ;  
     }
-     
-       
-   }
 
+           public TbTarifa getTarifa() {
+               return tarifa;
+           }
+
+           public void setTarifa(TbTarifa tarifa) {
+               this.tarifa = tarifa;
+           }
+
+       }

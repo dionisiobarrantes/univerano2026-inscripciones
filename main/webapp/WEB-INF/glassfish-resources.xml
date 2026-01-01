@@ -13,4 +13,22 @@
         <property name="useSSL" value="false"/>
     </jdbc-connection-pool>
     <jdbc-resource enabled="true" jndi-name="java:app/univerano2025" object-type="user" pool-name="mysql_univerano2024_rootPool"/>
+
+    <mail-resource
+            jndi-name="java:app/mail/universidadSession"
+            host="panel.anticapitalistas.org"
+            user="universidadverano.anticapitalistas.org"
+            from="universidadverano@anticapitalistas.org"
+            transport-protocol="smtps"
+            debug="false">
+        <property name="mail.smtps.password" value="Democrito"/>
+        <property name="mail.smtps.port" value="465"/>
+        <property name="mail.smtps.auth" value="true"/>
+        <property name="mail.smtps.ssl.enable" value="true"/>
+        <property name="mail.smtps.ssl.checkserveridentity" value="false"/>
+        <property name="mail.smtps.ssl.trust" value="*"/>
+        <property name="mail.smtps.socketFactory.port" value="465"/>
+        <property name="mail.smtps.socketFactory.class" value="javax.net.ssl.SSLSocketFactory"/>
+    </mail-resource>
+
 </resources>
