@@ -189,25 +189,31 @@
                     </h:panelGroup>
                 </p:panelGrid>
                 <p:panelGrid columns="1" layout="grid" styleClass="ui-panelgrid-blank">
-                    <p:outputLabel value="#{msg.alergias}" />
-                    <p:selectBooleanCheckbox id="alergiasBoolean" value="#{newJSFManagedBean.inscripcionActual.alergiasBoolean}">
-                        <f:ajax event="change" execute="@this" render="perfbyselection6" />                           
-                    </p:selectBooleanCheckbox>
+                    <h:panelGroup layout="block" style="display: flex; align-items: center; gap: 10px;">
+                        <p:outputLabel value="#{msg.alergias}" for="alergiasBoolean" />
+                        <p:selectBooleanCheckbox id="alergiasBoolean" value="#{newJSFManagedBean.inscripcionActual.alergiasBoolean}">
+                            <f:ajax event="change" execute="@this" render="perfbyselection6" />                           
+                        </p:selectBooleanCheckbox>
+                    </h:panelGroup>
                     <h:panelGroup id="perfbyselection6">
                         <p:outputLabel value="#{msg.alergias2}" rendered="#{newJSFManagedBean.inscripcionActual.alergiasBoolean}" />    
                         <p:inputText maxlength="70" id="alergias" value="#{newJSFManagedBean.inscripcionActual.alergias}" title="alergias" rendered="#{newJSFManagedBean.inscripcionActual.alergiasBoolean}"/>                         
                       <p:message for="alergias" style="color:red"  />      
                     </h:panelGroup>  
 
-                    <p:outputLabel value="#{msg.lanzadera}" for="lanzadera" />
-                    <p:selectBooleanCheckbox id="lanzadera" value="#{newJSFManagedBean.inscripcionActual.lanzadera}" title="lanzadera" />
-                    <p:outputLabel value="#{msg.lanzadera2}" />
-                    <h:outputLink value = "#{msg.lanzadera3}" target="_blank" > Lanzadera</h:outputLink>
+                    <h:panelGroup layout="block" style="display: flex; align-items: center; gap: 10px;">
+                        <p:outputLabel value="#{msg.lanzadera}" for="lanzadera" />
+                        <p:selectBooleanCheckbox id="lanzadera" value="#{newJSFManagedBean.inscripcionActual.lanzadera}" title="lanzadera" />
+                        <p:outputLabel value="#{msg.lanzadera2}" />
+                        <h:outputLink value = "#{msg.lanzadera3}" target="_blank" > Lanzadera</h:outputLink>
+                    </h:panelGroup>
 
-                    <p:outputLabel value="#{msg.guarderia}" for="guarderia" />
-                    <p:selectBooleanCheckbox id = "guarderia" value="#{newJSFManagedBean.inscripcionActual.guarderia}">
-                        <f:ajax event="change" execute="@this" render="perfbyselection4" />  
-                    </p:selectBooleanCheckbox>  
+                    <h:panelGroup layout="block" style="display: flex; align-items: center; gap: 10px;">
+                        <p:outputLabel value="#{msg.guarderia}" for="guarderia" />
+                        <p:selectBooleanCheckbox id = "guarderia" value="#{newJSFManagedBean.inscripcionActual.guarderia}">
+                            <f:ajax event="change" execute="@this" render="perfbyselection4" />  
+                        </p:selectBooleanCheckbox>
+                    </h:panelGroup>
                      <h:panelGroup id="perfbyselection4">
                          <p:outputLabel value="#{msg.guarderia1}" for="ninio" rendered="#{newJSFManagedBean.inscripcionActual.guarderia eq true}" />
                         <p:inputText id="ninio" value="#{newJSFManagedBean.inscripcionActual.edadNinio}" title="edadNinio" rendered="#{newJSFManagedBean.inscripcionActual.guarderia eq true}" styleClass="short-input"/>
@@ -245,15 +251,18 @@
                     </h:panelGroup>
 
 
-                    <p:outputLabel value="#{msg.colabora}" for="" />
-                    <p:selectBooleanCheckbox id = "colabora" value="#{newJSFManagedBean.inscripcionActual.colabora}">
+                    <h:panelGroup layout="block" style="display: flex; align-items: center; gap: 10px;">
+                        <p:outputLabel value="#{msg.colabora}" for="colabora" />
+                        <p:selectBooleanCheckbox id = "colabora" value="#{newJSFManagedBean.inscripcionActual.colabora}">
+                        </p:selectBooleanCheckbox>
+                    </h:panelGroup>
 
-                    </p:selectBooleanCheckbox> 
-
-                    <p:outputLabel value="#{msg.sindicato}" for="" />
-                    <p:selectBooleanCheckbox id = "afiliacion_sindical" value="#{newJSFManagedBean.inscripcionActual.afiliacionSindical}">
-                        <f:ajax event="change" execute="@this" render="perfbyselection3" />  
-                    </p:selectBooleanCheckbox> 
+                    <h:panelGroup layout="block" style="display: flex; align-items: center; gap: 10px;">
+                        <p:outputLabel value="#{msg.sindicato}" for="afiliacion_sindical" />
+                        <p:selectBooleanCheckbox id = "afiliacion_sindical" value="#{newJSFManagedBean.inscripcionActual.afiliacionSindical}">
+                            <f:ajax event="change" execute="@this" render="perfbyselection3" />  
+                        </p:selectBooleanCheckbox>
+                    </h:panelGroup>
 
                     <h:panelGroup id="perfbyselection3">
                         <p:outputLabel value="#{msg.sindicato1}" for="sindicato" rendered="#{newJSFManagedBean.inscripcionActual.afiliacionSindical eq true}" />
@@ -327,12 +336,14 @@
                         <p:outputLabel value="#{msg.consentimiento1} "  />
                         <p:outputLabel value="#{msg.consentimiento2} " />
                         <p:outputLabel value="#{msg.consentimiento3} " />
-                        <h:outputLabel value="#{msg.consentimiento4}" />
                     </h:panelGroup>
-                    <p:selectBooleanCheckbox  id="consentimiento" value="#{newJSFManagedBean.inscripcionActual.nodni}" requiredMessage="Debes manifestar consentimiento">
-                        <f:validator validatorId="RequiredCheckboxValidator" />
-                    </p:selectBooleanCheckbox>
-                    <h:message for="consentimiento" style="color:red" />
+                    <h:panelGroup layout="block" style="display: flex; justify-content: center; align-items: center; gap: 10px; font-size:smaller">
+                        <h:outputLabel value="#{msg.consentimiento4}" for="consentimiento" />
+                        <p:selectBooleanCheckbox  id="consentimiento" value="#{newJSFManagedBean.inscripcionActual.nodni}" requiredMessage="Debes manifestar consentimiento">
+                            <f:validator validatorId="RequiredCheckboxValidator" />
+                        </p:selectBooleanCheckbox>
+                    </h:panelGroup>
+                    <h:message for="consentimiento" style="color:red; text-align: center; display: block;" />
                 </p:panelGrid>
 
                 <p:panelGrid columns="1" layout="grid" styleClass="ui-panelgrid-blank">
