@@ -3,104 +3,30 @@
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:h="jakarta.faces.html"
       xmlns:f="jakarta.faces.core"
-      xmlns:p="http://primefaces.org/ui" > 
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:pt="http://xmlns.jcp.org/jsf/passthrough"
+>
     <h:head>
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <link rel="stylesheet" href="https://unpkg.com/primeflex@3.3.1/primeflex.min.css" />
         <style type="text/css">
-            .ui-fluid .ui-inputtext, 
-            .ui-fluid .ui-selectonemenu,
-            .ui-fluid .ui-selectoneradio,
-            .ui-fluid .ui-inputtextarea {
-                width: 100% !important;
-                box-sizing: border-box;
-            }
-            .ui-panelgrid.ui-panelgrid-blank .ui-panelgrid-content {
-                border: 0 none;
-                background-color: transparent;
-            }
-            @media (max-width: 640px) {
-                .ui-panelgrid .ui-grid-row {
-                    display: block !important;
-                }
-                .ui-panelgrid [class*="ui-grid-col-"] {
-                    width: 100% !important;
-                    display: block !important;
-                }
-                h2 {
-                    font-size: 1.5em;
-                }
-                .ui-selectmanycheckbox label {
-                    display: block;
-                    margin-bottom: 10px;
-                }
-            }
-            .full-width {
-                width: 100% !important;
-            }
             .fondo {
-                padding: 10px;
-            }
-            /* Reducir separación excesiva */
-            .ui-panelgrid .ui-panelgrid-cell {
-                padding: 4px 10px !important;
-            }
-            .ui-panelgrid.ui-panelgrid-blank .ui-grid-row {
-                margin-bottom: 2px;
+                padding: 1rem;
+                max-width: 900px;
+                margin: 0 auto;
+                background-color: #f9f9f9;
             }
             h2 {
-                margin-top: 10px;
-                margin-bottom: 5px;
-            }
-            /* Clases para limitar el ancho de campos cortos */
-            .short-input {
-                max-width: 100px !important;
-            }
-            .medium-input {
-                max-width: 250px !important;
+                margin-top: 1.5rem;
+                margin-bottom: 1rem;
+                color: #333;
+                border-bottom: 1px solid #ddd;
+                padding-bottom: 0.5rem;
             }
         </style>
 
 
         <script type="text/javascript">
-            function test()
-            {
-
-
-                if (document.forms['ficha_inscripcion'].elements['ficha_inscripcion:correoElectronico'].value !==
-                        document.forms['ficha_inscripcion'].elements['ficha_inscripcion:correoElectronico2'].value)
-                {
-                    alert("Los correos electrónicos no coinciden");
-                    document.forms['ficha_inscripcion'].elements['ficha_inscripcion:correoElectronico'].value = '';
-                    document.forms['ficha_inscripcion'].elements['ficha_inscripcion:correoElectronico2'].value = '';
-                    return false;
-                }
-                if (document.forms['ficha_inscripcion'].elements['ficha_inscripcion:telefono'].value.length > 14)
-                {
-                    alert("El número de teléfono es demasiado largo, 14 caracteres máximo");
-
-                    return false;
-                }
-                if (document.forms['ficha_inscripcion'].elements['ficha_inscripcion:observaciones'].value.length > 199)
-                {
-                    alert("El texto de la observaciones es demasiado largo, 190 caracteres máximo");
-                    return false;
-                }
-                if (document.forms['ficha_inscripcion'].elements['ficha_inscripcion:otraOrganizacion'].value.length > 40)
-                {
-                    alert("El texto de organización es demasiado largo, 40 caracteres máximo");
-                    return false;
-                }
-
-                if (document.forms['ficha_inscripcion'].elements['ficha_inscripcion:alergias'].value.length > 99)
-                {
-                    alert("El texto de alergias es demasiado largo, 99 caracteres máximo");
-                    return false;
-                }
-
-                document.forms['ficha_inscripcion'].elements['correoElectronico2'].value = '';
-                document.forms['ficha_inscripcion'].elements['duracionEstancia'].value = '';
-            }
-
             function borraCorreo() {
                 const text = " ";
                 document.forms['ficha_inscripcion'].elements['correoElectronico2'].value = text;
@@ -114,163 +40,200 @@
         <f:loadBundle basename="resources.mensajes" var="msg"  />
         <f:view >
             <h:form id="ficha_inscripcion" styleClass="ui-fluid">
-
+                <p:growl id="growl" showDetail="true" sticky="false" life="5000" />
+                <p:messages id="globalMessages" showDetail="true" closable="true" />
                 <h2>
                     <p:outputLabel value="#{msg.convocatoria}"  />  
                 </h2>
-                <p:panelGrid columns="1" layout="grid" styleClass="ui-panelgrid-blank">
+                
+                <div class="field col-12">
                     <p:outputLabel  value="#{msg.nomape}:" for="nombreApellido"  />
                     <p:inputText required="true" maxlength="90" id="nombreApellido" value="#{newJSFManagedBean.inscripcionActual.nombreApellidos}" title="Nombre y apellidos" requiredMessage="Los datos de nombre y apellidos son obligatorios" />
-                    <p:message for="nombreApellido" style="color:red" />
-                </p:panelGrid>
-                <p:panelGrid columns="2" layout="grid" styleClass="ui-panelgrid-blank" columnClasses="ui-grid-col-8,ui-grid-col-4">
-                    <h:panelGroup layout="block">
-                        <p:outputLabel value="#{msg.dni}" for="dniNie" />
-                        <p:inputText  maxlength="20" required="true" id="dniNie" value="#{newJSFManagedBean.inscripcionActual.dniNie}" title="Número del DNI o NIE" requiredMessage="El número de DNI, NIE o pasaporte es obligatorio" styleClass="medium-input"/>
-                        <p:message for="dniNie" style="color:red"  />
-                    </h:panelGroup>
-                    <h:panelGroup layout="block">
-                        <p:outputLabel value="#{msg.edad}" for="edad" />
-                        <p:inputText id="edad" value="#{newJSFManagedBean.inscripcionActual.edad}" title="Edad" styleClass="short-input" />
-                    </h:panelGroup>
-                </p:panelGrid>
-                <p:panelGrid columns="2" layout="grid" styleClass="ui-panelgrid-blank" columnClasses="ui-grid-col-6,ui-grid-col-6">
-                    <h:panelGroup layout="block">
-                        <p:outputLabel  value="#{msg.residencia}" for="ciudadResidencia" />               
+                    <p:message for="nombreApellido" />
+                </div>
+
+                <div class="grid column-gap-8">
+                    <div class="field col-12 md:col-4">
+                        <p:outputLabel value="#{msg.dni}" for="dniNie" style="display:block;"/>
+                        <p:inputText  maxlength="20" required="true" id="dniNie" value="#{newJSFManagedBean.inscripcionActual.dniNie}" title="Número del DNI o NIE" requiredMessage="El número de DNI, NIE o pasaporte es obligatorio"
+                                      styleClass="medium-input"
+                                      pt:autocomplete="off"
+                        />
+                        <p:message for="dniNie" />
+                    </div>
+                    <div class="field col-12 md:col-4">
+                        <p:outputLabel value="#{msg.edad}" for="edad" style="display:block;"/>
+                        <p:inputText id="edad" value="#{newJSFManagedBean.inscripcionActual.edad}" title="Edad" style="max-width: 100px;"
+                                     styleClass="short-input"
+                                     pt:type="number"
+                                     pt:inputmode="numeric"
+                                     pt:min="0"
+                                     pt:max="120"
+                        />
+                    </div>
+                </div>
+
+                <div class="grid">
+                    <div class="field col-12 md:col-6">
+                        <p:outputLabel  value="#{msg.residencia}" for="ciudadResidencia" style="display:block;"/>               
                         <p:inputText maxlength="60" required="true" id="ciudadResidencia" value="#{newJSFManagedBean.inscripcionActual.ciudadResidencia}" title="ciudadResidencia" requiredMessage="Tienes que indicar tu localidad de residencia"/>
-                        <p:message for="ciudadResidencia" style="color:red"  />             
-                    </h:panelGroup>
-                    <h:panelGroup layout="block">
-                        <p:outputLabel value="#{msg.ccaa}:" for="ccaa" />
+                        <p:message for="ciudadResidencia" />             
+                    </div>
+                    <div class="field col-12 md:col-6">
+                        <p:outputLabel value="#{msg.ccaa}:" for="ccaa" style="display:block;"/>
                         <p:selectOneMenu required="true" id = "ccaa" value="#{newJSFManagedBean.inscripcionActual.ccaa}">               
                             <f:selectItem itemLabel="CCAA" itemValue="#{null}"/>   
                             <f:selectItems value="#{newJSFManagedBean.muestraCCAA()}" var ="ccaa"
                                            itemLabel="#{ccaa.descCcaa}" 
                                            itemValue="#{ccaa.idCcaa}" />
                         </p:selectOneMenu> 
-                        <p:message for="ccaa" style="color:red"  />
-                    </h:panelGroup>
-                </p:panelGrid>
-                <p:panelGrid columns="2" layout="grid" styleClass="ui-panelgrid-blank" columnClasses="ui-grid-col-6,ui-grid-col-6">
-                    <h:panelGroup layout="block">
-                        <p:outputLabel value="#{msg.email}" for="correoElectronico" />
+                        <p:message for="ccaa" />
+                    </div>
+                </div>
+
+                <div class="grid">
+                    <div class="field col-12 md:col-6">
+                        <p:outputLabel value="#{msg.email}" for="correoElectronico" style="display:block;"/>
                         <p:inputText required="true" id="correoElectronico"  value="#{newJSFManagedBean.inscripcionActual.correoElectronico}" title="Correo electrónico" requiredMessage="El dato del correo electrónico es obligatorio" 
-                                     validatorMessage="Dirección de correo electrónico incorrecta" >
+                                     validatorMessage="Dirección de correo electrónico incorrecta"
+                                     pt:type="email"
+                                     pt:inputmode="email"
+                                     pt:autocomplete="email"
+
+                        >
+
+
                             <f:validateRegex
                                 pattern="^[_A-Za-z0-9-\+]+(\.[_A-Za-z0-9-]+)*@[A-Za-z0-9-]+(\.[A-Za-z0-9]+)*(\.[A-Za-z]{2,})$" />
                         </p:inputText>
-                        <p:message  for="correoElectronico" style="color:red" />
-                    </h:panelGroup>
-                    <h:panelGroup layout="block">
-                        <p:outputLabel value="#{msg.email2}" for="correoElectronico2" />
-                        <p:inputText required="true" id="correoElectronico2"  value="#{newJSFManagedBean.correoElectronico2}" title="Correo electrónico" requiredMessage="El correo electrónico no coincide">                                          
+                        <p:message  for="correoElectronico" />
+                    </div>
+                    <div class="field col-12 md:col-6">
+                        <p:outputLabel value="#{msg.email2}" for="correoElectronico2" style="display:block;"/>
+                        <p:inputText required="true" id="correoElectronico2"  value="#{newJSFManagedBean.correoElectronico2}" title="Correo electrónico" requiredMessage="El correo electrónico no coincide"
+                                     pt:type="email"
+                                     pt:inputmode="email"
+                                     pt:autocomplete="email"
+                        >
+                            <f:validator validatorId="EmailMatchValidator" />
+                            <f:attribute name="matchComponentId" value="correoElectronico" />
                         </p:inputText>
-                        <p:message  for="correoElectronico2" style="color:red" />
-                    </h:panelGroup>
-                </p:panelGrid>
-                <p:panelGrid columns="2" layout="grid" styleClass="ui-panelgrid-blank" columnClasses="ui-grid-col-6,ui-grid-col-6">
-                    <h:panelGroup layout="block">
-                        <p:outputLabel  value="#{msg.telefono}" for="telefono" />
+                        <p:message  for="correoElectronico2" />
+                    </div>
+                </div>
+
+                <div class="grid">
+                    <div class="field col-12 md:col-6">
+                        <p:outputLabel  value="#{msg.telefono}" for="telefono" style="display:block;"/>
                         <p:inputText  id="telefono" value="#{newJSFManagedBean.inscripcionActual.telefono}"
-                                      title="telefono" styleClass="medium-input"
-                                      required="false"  validatorMessage="El telefono introducido es demasido largo">
+                                      title="telefono"
+                                      required="false"  validatorMessage="El telefono introducido es demasido largo"
+                                      maxlength="14"
+                                      styleClass="medium-input"
+                                      pt:type="tel"
+                                      pt:inputmode="tel"
+                                      pt:autocomplete="tel"
+
+                        >
                         </p:inputText>
-                        <p:message  for="telefono" style="color:red" />
-                    </h:panelGroup>
-                    <h:panelGroup layout="block">
-                        <p:outputLabel value="#{msg.orientacion_alimentaria}" for="orientacionAlimentaria" />
+                        <p:message  for="telefono" />
+                    </div>
+                    <div class="field col-12 md:col-6">
+                        <p:outputLabel value="#{msg.orientacion_alimentaria}" for="orientacionAlimentaria" style="display:block;"/>
                         <p:selectOneMenu required="true" id = "orientacionAlimentaria" value="#{newJSFManagedBean.inscripcionActual.orientacionAlimentaria}">               
                             <f:selectItem itemLabel="Selecciona un valor ..." itemValue="#{null}" noSelectionOption="true"/>   
                             <f:selectItems value="#{newJSFManagedBean.muestraOrientacionAlimentaria()}" var ="oriali"
                                            itemLabel="#{oriali.descOrientacionAlimentaria}" 
                                            itemValue="#{oriali.idOrientacionAlimentaria}" />
                         </p:selectOneMenu>  
-                        <p:message for="orientacionAlimentaria" style="color:red"  />
-                    </h:panelGroup>
-                </p:panelGrid>
-                <p:panelGrid columns="1" layout="grid" styleClass="ui-panelgrid-blank">
-                    <h:panelGroup layout="block" style="display: flex; align-items: center; gap: 10px;">
+                        <p:message for="orientacionAlimentaria" />
+                    </div>
+                </div>
+
+                <div class="field col-12">
+                    <div class="flex align-items-center gap-2 mb-2">
                         <p:outputLabel value="#{msg.alergias}" for="alergiasBoolean" />
                         <p:selectBooleanCheckbox id="alergiasBoolean" value="#{newJSFManagedBean.inscripcionActual.alergiasBoolean}">
                             <f:ajax event="change" execute="@this" render="perfbyselection6" />                           
                         </p:selectBooleanCheckbox>
-                    </h:panelGroup>
-                    <h:panelGroup id="perfbyselection6">
-                        <p:outputLabel value="#{msg.alergias2}" rendered="#{newJSFManagedBean.inscripcionActual.alergiasBoolean}" />    
+                    </div>
+                    <h:panelGroup id="perfbyselection6" layout="block" styleClass="field">
+                        <p:outputLabel value="#{msg.alergias2}" rendered="#{newJSFManagedBean.inscripcionActual.alergiasBoolean}" styleClass="block mb-1"/>    
                         <p:inputText maxlength="70" id="alergias" value="#{newJSFManagedBean.inscripcionActual.alergias}" title="alergias" rendered="#{newJSFManagedBean.inscripcionActual.alergiasBoolean}"/>                         
-                      <p:message for="alergias" style="color:red"  />      
+                        <p:message for="alergias" style="color:red"  />      
                     </h:panelGroup>  
 
-                    <h:panelGroup layout="block" style="display: flex; align-items: center; gap: 10px;">
+                    <div class="flex align-items-center flex-wrap gap-2 mb-2">
                         <p:outputLabel value="#{msg.lanzadera}" for="lanzadera" />
                         <p:selectBooleanCheckbox id="lanzadera" value="#{newJSFManagedBean.inscripcionActual.lanzadera}" title="lanzadera" />
                         <p:outputLabel value="#{msg.lanzadera2}" />
                         <h:outputLink value = "#{msg.lanzadera3}" target="_blank" > Lanzadera</h:outputLink>
-                    </h:panelGroup>
+                    </div>
 
-                    <h:panelGroup layout="block" style="display: flex; align-items: center; gap: 10px;">
+                    <div class="flex align-items-center gap-2 mb-2">
                         <p:outputLabel value="#{msg.guarderia}" for="guarderia" />
                         <p:selectBooleanCheckbox id = "guarderia" value="#{newJSFManagedBean.inscripcionActual.guarderia}">
                             <f:ajax event="change" execute="@this" render="perfbyselection4" />  
                         </p:selectBooleanCheckbox>
-                    </h:panelGroup>
-                     <h:panelGroup id="perfbyselection4">
-                         <p:outputLabel value="#{msg.guarderia1}" for="ninio" rendered="#{newJSFManagedBean.inscripcionActual.guarderia eq true}" />
-                        <p:inputText id="ninio" value="#{newJSFManagedBean.inscripcionActual.edadNinio}" title="edadNinio" rendered="#{newJSFManagedBean.inscripcionActual.guarderia eq true}" styleClass="short-input"/>
-                        <p:outputLabel value="#{msg.guarderia2}" for="tutor" rendered="#{newJSFManagedBean.inscripcionActual.guarderia eq true}" />
-                        <p:inputText id="tutor" value="#{newJSFManagedBean.inscripcionActual.dniTutor}" title="dniTutor" rendered="#{newJSFManagedBean.inscripcionActual.guarderia eq true}" styleClass="medium-input"/>
-
-                    </h:panelGroup>
-
-
-                    <p:outputLabel value="#{msg.ocupacion}" for="ocupacion" />
-                    <p:selectOneMenu id = "ocupacion" value="#{newJSFManagedBean.inscripcionActual.ocupacion}">               
-                        <f:selectItem itemLabel="Selecciona un valor ..." itemValue="#{null}" noSelectionOption="true"/>   
-                        <f:selectItems value="#{newJSFManagedBean.listaOcupaciones}" var ="c"
-                                       itemLabel="#{c.descOcupacion}" 
-                                       itemValue="#{c.idOcupacion}" />
-                        <f:ajax event="change" execute="@this" render="perfbyselection" />  
-                    </p:selectOneMenu>
-                    <h:panelGroup id="perfbyselection">
-                        <p:outputLabel value="#{msg.ocupacion1}" for="otraOcupacion" rendered="#{newJSFManagedBean.inscripcionActual.ocupacion eq 13}" />
-                        <p:inputText id="otraOcupacion" value="#{newJSFManagedBean.inscripcionActual.otraOcupacion}" maxlength="49" title="otraOcupacion" rendered="#{newJSFManagedBean.inscripcionActual.ocupacion eq 13}"/>
+                    </div>
+                    <h:panelGroup id="perfbyselection4" layout="block" styleClass="field">
+                        <p:outputLabel value="#{msg.guarderia1}" for="ninio" rendered="#{newJSFManagedBean.inscripcionActual.guarderia eq true}" styleClass="block mb-1"/>
+                        <p:inputText id="ninio" value="#{newJSFManagedBean.inscripcionActual.edadNinio}" title="edadNinio" rendered="#{newJSFManagedBean.inscripcionActual.guarderia eq true}" style="max-width: 100px;"/>
+                        <p:outputLabel value="#{msg.guarderia2}" for="tutor" rendered="#{newJSFManagedBean.inscripcionActual.guarderia eq true}" styleClass="block mt-2 mb-1"/>
+                        <p:inputText id="tutor" value="#{newJSFManagedBean.inscripcionActual.dniTutor}" title="dniTutor" rendered="#{newJSFManagedBean.inscripcionActual.guarderia eq true}" style="max-width: 250px;"/>
                     </h:panelGroup>
 
-                    <p:outputLabel value="#{msg.organizacion} " for="organizacion" />
-                    <p:selectOneMenu id= "organizacion" value="#{newJSFManagedBean.inscripcionActual.organizacion}">               
-                        <f:selectItem itemLabel="Selecciona un valor ..." itemValue="#{null}" noSelectionOption="true"/>  
-                        <f:selectItems value="#{newJSFManagedBean.listaOrganizacion}" var ="organizacion"
-                                       itemLabel="#{organizacion.descOrganizacion}" 
-                                       itemValue="#{organizacion.idOrganizacion}" />
-                        <f:ajax event="change" execute="@this" render="perfbyselection2" />  
-                    </p:selectOneMenu>  
+                    <div class="field">
+                        <p:outputLabel value="#{msg.ocupacion}" for="ocupacion" styleClass="block mb-1"/>
+                        <p:selectOneMenu id = "ocupacion" value="#{newJSFManagedBean.inscripcionActual.ocupacion}">               
+                            <f:selectItem itemLabel="Selecciona un valor ..." itemValue="#{null}" noSelectionOption="true"/>   
+                            <f:selectItems value="#{newJSFManagedBean.listaOcupaciones}" var ="c"
+                                           itemLabel="#{c.descOcupacion}" 
+                                           itemValue="#{c.idOcupacion}" />
+                            <f:ajax event="change" execute="@this" render="perfbyselection" />  
+                        </p:selectOneMenu>
+                        <h:panelGroup id="perfbyselection" layout="block" styleClass="mt-2">
+                            <p:outputLabel value="#{msg.ocupacion1}" for="otraOcupacion" rendered="#{newJSFManagedBean.inscripcionActual.ocupacion eq 13}" styleClass="block mb-1"/>
+                            <p:inputText id="otraOcupacion" value="#{newJSFManagedBean.inscripcionActual.otraOcupacion}" maxlength="49" title="otraOcupacion" rendered="#{newJSFManagedBean.inscripcionActual.ocupacion eq 13}"/>
+                        </h:panelGroup>
+                    </div>
 
-                    <h:panelGroup id="perfbyselection2">
-                        <p:outputLabel value="#{msg.organizacion1}" for="otraOrganizacion" rendered="#{newJSFManagedBean.inscripcionActual.organizacion eq 3}" />
-                        <p:inputText id="otraOrganizacion" maxlength="99" value="#{newJSFManagedBean.inscripcionActual.otraOrganizacion}" title="otraOrganizacion" rendered="#{newJSFManagedBean.inscripcionActual.organizacion eq 3}"/>
-                    </h:panelGroup>
+                    <div class="field">
+                        <p:outputLabel value="#{msg.organizacion} " for="organizacion" styleClass="block mb-1"/>
+                        <p:selectOneMenu id= "organizacion" value="#{newJSFManagedBean.inscripcionActual.organizacion}">               
+                            <f:selectItem itemLabel="Selecciona un valor ..." itemValue="#{null}" noSelectionOption="true"/>  
+                            <f:selectItems value="#{newJSFManagedBean.listaOrganizacion}" var ="organizacion"
+                                           itemLabel="#{organizacion.descOrganizacion}" 
+                                           itemValue="#{organizacion.idOrganizacion}" />
+                            <f:ajax event="change" execute="@this" render="perfbyselection2" />  
+                        </p:selectOneMenu>  
+                        <h:panelGroup id="perfbyselection2" layout="block" styleClass="mt-2">
+                            <p:outputLabel value="#{msg.organizacion1}" for="otraOrganizacion" rendered="#{newJSFManagedBean.inscripcionActual.organizacion eq 3}" styleClass="block mb-1"/>
+                            <p:inputText id="otraOrganizacion" maxlength="99" value="#{newJSFManagedBean.inscripcionActual.otraOrganizacion}" title="otraOrganizacion" rendered="#{newJSFManagedBean.inscripcionActual.organizacion eq 3}"/>
+                        </h:panelGroup>
+                    </div>
 
-
-                    <h:panelGroup layout="block" style="display: flex; align-items: center; gap: 10px;">
+                    <div class="flex align-items-center gap-2 mb-2">
                         <p:outputLabel value="#{msg.colabora}" for="colabora" />
                         <p:selectBooleanCheckbox id = "colabora" value="#{newJSFManagedBean.inscripcionActual.colabora}">
                         </p:selectBooleanCheckbox>
-                    </h:panelGroup>
+                    </div>
 
-                    <h:panelGroup layout="block" style="display: flex; align-items: center; gap: 10px;">
+                    <div class="flex align-items-center gap-2 mb-2">
                         <p:outputLabel value="#{msg.sindicato}" for="afiliacion_sindical" />
                         <p:selectBooleanCheckbox id = "afiliacion_sindical" value="#{newJSFManagedBean.inscripcionActual.afiliacionSindical}">
                             <f:ajax event="change" execute="@this" render="perfbyselection3" />  
                         </p:selectBooleanCheckbox>
-                    </h:panelGroup>
+                    </div>
 
-                    <h:panelGroup id="perfbyselection3">
-                        <p:outputLabel value="#{msg.sindicato1}" for="sindicato" rendered="#{newJSFManagedBean.inscripcionActual.afiliacionSindical eq true}" />
+                    <h:panelGroup id="perfbyselection3" layout="block" styleClass="field">
+                        <p:outputLabel value="#{msg.sindicato1}" for="sindicato" rendered="#{newJSFManagedBean.inscripcionActual.afiliacionSindical eq true}" styleClass="block mb-1"/>
                         <p:inputText id="sindicato" value="#{newJSFManagedBean.inscripcionActual.sindicato}" maxlength="39" title="sindicato" rendered="#{newJSFManagedBean.inscripcionActual.afiliacionSindical eq true}"/>
                     </h:panelGroup>
-                </p:panelGrid>
-                <p:panelGrid columns="1" layout="grid" styleClass="ui-panelgrid-blank">
-                    <p:outputLabel  style="font-weight:bold" value="#{msg.estancia}" for="modalidadEstancia" />
+                </div>
+
+                <div class="field col-12">
+                    <p:outputLabel  style="font-weight:bold" value="#{msg.estancia}" for="modalidadEstancia" styleClass="block mb-1"/>
                     <p:selectOneMenu  required="true" id="modalidadEstancia" value="#{newJSFManagedBean.inscripcionActual.modalidadEstancia}" requiredMessage="La modalidad de estancia es obligatoria">
                         <f:selectItem itemLabel="Selecciona un valor ..." itemValue="#{null}" noSelectionOption="true"/>   
                         <f:selectItems value="#{newJSFManagedBean.muestraModalidadEstancia()}" var ="mEstancia"
@@ -280,22 +243,24 @@
                         <p:ajax update="containerGrid" event="change"/>  
                     </p:selectOneMenu>
                     <p:message for="modalidadEstancia" style="color:red" />
-                </p:panelGrid> 
-                <p:outputPanel id="containerGrid" layout="block">  
-                    <p:panelGrid id="perfbyselection5" columns="1" layout="grid" styleClass="ui-panelgrid-blank">
-                        <h:outputLabel value="#{msg.dias}"  rendered="#{newJSFManagedBean.inscripcionActual.modalidadEstancia eq 3
+                </div>
+
+                <p:outputPanel id="containerGrid" layout="block" styleClass="col-12">  
+                    <div id="perfbyselection5" class="field">
+                        <h:outputLabel value="#{msg.dias}" styleClass="block mb-1" rendered="#{newJSFManagedBean.inscripcionActual.modalidadEstancia eq 3
                                                                                              or newJSFManagedBean.inscripcionActual.modalidadEstancia eq 4 
                                                                                              or newJSFManagedBean.inscripcionActual.modalidadEstancia eq 5
                                                                                              or newJSFManagedBean.inscripcionActual.modalidadEstancia eq 7 
                                                                                              or newJSFManagedBean.inscripcionActual.modalidadEstancia eq 8 
                                                                                              or newJSFManagedBean.inscripcionActual.modalidadEstancia eq 11}" />
-                        <h:selectManyCheckbox  collectionType="java.util.ArrayList" style="width: 100%;"  required="true" id="listaDias" value="#{newJSFManagedBean.listaDias}"  rendered="#{newJSFManagedBean.inscripcionActual.modalidadEstancia eq 3 
+                        <h:selectManyCheckbox  collectionType="java.util.ArrayList" styleClass="w-full"  required="true" id="listaDias" value="#{newJSFManagedBean.listaDias}"  rendered="#{newJSFManagedBean.inscripcionActual.modalidadEstancia eq 3 
                                                                                                                                                   or newJSFManagedBean.inscripcionActual.modalidadEstancia eq 4 
                                                                                                                                                   or newJSFManagedBean.inscripcionActual.modalidadEstancia eq 5 
                                                                                                                                                   or newJSFManagedBean.inscripcionActual.modalidadEstancia eq 7 
                                                                                                                                                   or newJSFManagedBean.inscripcionActual.modalidadEstancia eq 8 
                                                                                                                                                   or newJSFManagedBean.inscripcionActual.modalidadEstancia eq 11}" 
-                                               requiredMessage="Tienes que indicar por lo menos un día">
+                                               requiredMessage="Tienes que indicar por lo menos un día"
+                                               layout="pageDirection">
 
                             <f:selectItem itemLabel="#{msg.dia1}" itemValue='1' />
                             <f:selectItem itemLabel="#{msg.dia2}" itemValue='2' />
@@ -306,9 +271,9 @@
 
                         </h:selectManyCheckbox>
                         <p:message for="listaDias" style="color:red"  />
-                    </p:panelGrid>     
-                    <p:panelGrid columns="1" layout="grid" styleClass="ui-panelgrid-blank">
-                        <p:outputLabel style="font-weight:bold" value="#{msg.tarifa}"  for="tarifas" />
+                    </div>     
+                    <div class="field">
+                        <p:outputLabel style="font-weight:bold" value="#{msg.tarifa}"  for="tarifas" styleClass="block mb-1"/>
                         <p:selectOneRadio id = "tarifas" required="true" layout="pageDirection" value="#{newJSFManagedBean.inscripcionActual.tarifa}" requiredMessage="Tienes que indicar a que tarifa te acoges">               
                             <f:selectItems id = "itemsTarifa" value="#{newJSFManagedBean.listaTarifa}" var ="t"
                                            itemLabel="#{t.descTarifa}"
@@ -318,8 +283,8 @@
                             <p:ajax event="change" listener="#{newJSFManagedBean.calculaImporte()}" update="ImpCal"/>
                         </p:selectOneRadio>
                         <p:message for="tarifas" style="color:red"  />
-                    </p:panelGrid>
-                    <p:panelGrid columns="1" layout="grid" styleClass="ui-panelgrid-blank">
+                    </div>
+                    <div class="field">
                         <h2>
                             <p:outputLabel  value="#{msg.importe}"  />           
                         </h2>
@@ -327,43 +292,54 @@
                             <p:outputLabel style="color:red" id="ImpCal" value="#{newJSFManagedBean.getImporte_calculado().toString()}"  /> 
                             <p:outputLabel style="color:red" value="€"/>
                         </h2>
-                        <p:outputLabel value="#{msg.observaciones}" for="observaciones" />
+                        <p:outputLabel value="#{msg.observaciones}" for="observaciones" styleClass="block mb-1"/>
                         <p:inputTextarea maxlength="100" rows="3" id="observaciones" value="#{newJSFManagedBean.inscripcionActual.observaciones}" title="Observaciones" />
-                    </p:panelGrid >
+                    </div>
                 </p:outputPanel>
-                <p:panelGrid columns="1" layout="grid" styleClass="ui-panelgrid-blank">
-                    <h:panelGroup style="font-size:smaller">
+
+                <div class="field col-12">
+                    <h:panelGroup styleClass="block mb-3 text-sm">
                         <p:outputLabel value="#{msg.consentimiento1} "  />
                         <p:outputLabel value="#{msg.consentimiento2} " />
                         <p:outputLabel value="#{msg.consentimiento3} " />
                     </h:panelGroup>
-                    <h:panelGroup layout="block" style="display: flex; justify-content: center; align-items: center; gap: 10px; font-size:smaller">
+                    <div class="flex justify-content-center align-items-center gap-2 mt-3 text-sm">
                         <h:outputLabel value="#{msg.consentimiento4}" for="consentimiento" />
                         <p:selectBooleanCheckbox  id="consentimiento" value="#{newJSFManagedBean.inscripcionActual.nodni}" requiredMessage="Debes manifestar consentimiento">
                             <f:validator validatorId="RequiredCheckboxValidator" />
                         </p:selectBooleanCheckbox>
-                    </h:panelGroup>
+                    </div>
                     <h:message for="consentimiento" style="color:red; text-align: center; display: block;" />
-                </p:panelGrid>
+                </div>
 
-                <p:panelGrid columns="1" layout="grid" styleClass="ui-panelgrid-blank">
-                    <h:panelGroup style="color:red; display: block;">
+                <div class="field col-12">
+                    <h:panelGroup style="color:red;" styleClass="block mb-2">
                         <h:outputLabel value="#{msg.transferencia1} " />
                         <h:outputLabel value="#{msg.transferencia2}" />
                     </h:panelGroup>
                     
-                    <h:panelGroup style="font-size:1.2em; display: block;">
+                    <h:panelGroup style="font-size:1.2em;" styleClass="block mb-2">
                         <h:outputText value="#{msg.tarifa_m4} " />
                         <h:outputText value="#{msg.tarifa_m5} " />
                         <h:outputText value="#{msg.tarifa_m6}" />
                     </h:panelGroup>
                     
-                    <h:outputText value="#{msg.tarifa_m3}" style="font-size:1.2em; display: block;"/>
-                    <h:graphicImage id="capImg" value="#{facesContext.externalContext.requestContextPath}/../captcha.jpg" style="max-width: 100%; height: auto;"/>
-                    <p:inputText value="#{newJSFManagedBean.validate}" placeholder="Captcha" styleClass="medium-input"/>
-                    <p:commandButton action="#{newJSFManagedBean.execute}" value="#{msg.button_inscripcion}" onclick="return test()" styleClass="full-width" />
-                </p:panelGrid>
+                    <h:outputText value="#{msg.tarifa_m3}" style="font-size:1.2em;" styleClass="block mb-3"/>
 
+                    <div class="flex justify-content-center mb-3">
+                        <h:graphicImage id="capImg" value="#{facesContext.externalContext.requestContextPath}/../captcha.jpg" style="max-width: 100%; height: auto; border: 1px solid #ccc; border-radius: 4px;"/>
+                    </div>
+                    <div class="flex justify-content-center flex-column align-items-center">
+                        <p:inputText value="#{newJSFManagedBean.validate}" placeholder="Captcha" style="max-width: 250px;"/>
+                        <p:commandButton action="#{newJSFManagedBean.execute}"
+                         value="#{msg.button_inscripcion}"
+                                         styleClass="full-width"
+                                         update="@form"
+                                         process="@form"
+
+                                        />
+                    </div>
+                </div>
 
             </h:form> 
         </f:view> 

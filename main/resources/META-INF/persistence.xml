@@ -4,13 +4,9 @@
              xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
              xsi:schemaLocation="https://jakarta.ee/xml/ns/persistence https://jakarta.ee/xml/ns/persistence/persistence_2_1.xsd">
     <persistence-unit name="my_persistence_unit" transaction-type="JTA">
-        <provider>org.eclipse.persistence.jpa.PersistenceProvider</provider>
-        <jta-data-source>java:app/univerano2025</jta-data-source>
+        <jta-data-source>java:app/univerano2026</jta-data-source>
         <exclude-unlisted-classes>false</exclude-unlisted-classes>
         <properties>
-            <!-- Propiedades de optimización de EclipseLink (opcional) -->
-            <property name="eclipselink.logging.level" value="INFO"/>
-            <property name="eclipselink.target-database" value="MySQL"/>
         </properties>
     </persistence-unit>
 </persistence>

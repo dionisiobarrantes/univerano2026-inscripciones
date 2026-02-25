@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE resources PUBLIC "-//GlassFish.org//DTD GlassFish Application Server 3.1 Resource Definitions//EN" "http://glassfish.org/dtds/glassfish-resources_1_5.dtd">
+<resources>
+    <mail-resource 
+        jndi-name="mail/universidadSession" 
+        host="panel.anticapitalistas.org" 
+        user="universidadverano.anticapitalistas.org" 
+        from="universidadverano@anticapitalistas.org"
+        debug="false">
+        <property name="mail.smtp.password" value="TU_PASSWORD_AQUI"/>
+        <property name="mail.smtp.port" value="465"/>
+        <property name="mail.smtp.auth" value="true"/>
+        <property name="mail.smtp.socketFactory.port" value="465"/>
+        <property name="mail.smtp.socketFactory.class" value="javax.net.ssl.SSLSocketFactory"/>
+        <property name="mail.smtp.ssl.enable" value="true"/>
+    </mail-resource>
+</resources>

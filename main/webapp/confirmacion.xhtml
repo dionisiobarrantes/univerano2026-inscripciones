@@ -7,98 +7,126 @@ and open the template in the editor.
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:h="jakarta.faces.html" 
-      xmlns:f="http://java.sun.com/jsf/core" >
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui" >
      
-     <h:head>
+    <h:head>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
         <title>Inscripción en la Universidad de Verano Anticapitalista</title>
+        <style type="text/css">
+            .ui-fluid .ui-inputtext {
+                width: 100% !important;
+                box-sizing: border-box;
+            }
+            .ui-panelgrid.ui-panelgrid-blank .ui-panelgrid-content {
+                border: 0 none;
+                background-color: transparent;
+            }
+            .fondo {
+                padding: 15px;
+                max-width: 800px;
+                margin: 0 auto;
+                background-color: #f9f9f9;
+                font-family: 'Open Sans', sans-serif;
+            }
+            .confirmacion-header {
+                font-weight: bold;
+                font-size: 1.2em;
+                margin-bottom: 10px;
+                display: block;
+            }
+            .confirmacion-id, .confirmacion-importe {
+                font-weight: bold;
+                font-size: 1.5em;
+                color: #d32f2f;
+            }
+            .paypal-container {
+                margin-top: 30px;
+                padding: 20px;
+                border: 1px solid #ddd;
+                background-color: #fff;
+                text-align: center;
+                border-radius: 4px;
+            }
+            .banner-container {
+                text-align: center;
+                margin-bottom: 20px;
+            }
+            .banner-img {
+                max-width: 100%;
+                height: auto;
+            }
+            .btn-salir {
+                margin-top: 20px !important;
+                width: 100%;
+            }
+            @media (max-width: 640px) {
+                .fondo {
+                    padding: 10px;
+                }
+            }
+        </style>
     </h:head>
-    <h:body >
+    <h:body class="fondo">
         
 <f:view locale="#{facesContext.externalContext.requestLocale}" >
     
       <f:loadBundle basename="resources.mensajes" var="msg"  /> 
-      <!-- comment -->
-       <table align="center" style="font-family: 'Open Sans', sans-serif;">
-       <tr>
-        <td align="center">
-        <h:graphicImage value="#{facesContext.externalContext.requestContextPath}/../images/banner-2025.jpg"  width="150" height="212" style="vertical-align: middle;"/>    
-        </td>
-       </tr>
-       </table> 
-        <h:form >
-        <table align="center" style="font-family: 'Open Sans', sans-serif;">
-            <tr>
-                <td>
-                    <br></br> 
-                    <br></br>    
-                    <h:outputLabel value="#{msg.confirmacion}"  />
-                    <br></br> 
-                    <br></br>  
-                    <h:outputLabel style="font-weight:bold;" value="#{msg.confirmacion1}"  />
+
+        <div class="banner-container">
+            <h:graphicImage value="#{facesContext.externalContext.requestContextPath}/../images/banner-2025.jpg" styleClass="banner-img" />    
+        </div>
+
+        <h:form id="formConfirmacion" styleClass="ui-fluid">
+            <p:panelGrid columns="1" layout="grid" styleClass="ui-panelgrid-blank">
+                <h:panelGroup layout="block" style="margin-bottom: 20px;">
+                    <h:outputLabel value="#{msg.confirmacion}" style="display:block; margin-bottom: 15px;"  />
                     
-                    <h:outputLabel style="font-weight:bold; font-size: 1.5em;" value="#{newJSFManagedBean.inscripcionActual.getIdInscripcion().toString()}"  />
-                    <br></br> 
-                    <br></br>  
-                    <h:outputLabel style="font-weight:bold;" value="#{msg.confirmacion2}"  />
-                    <h:outputLabel style="font-weight:bold; font-size: 1.5em;" value="#{newJSFManagedBean.inscripcionActual.getImporteTotal().toString()}"  />
-                    <h:outputLabel style="font-weight:bold;" value=" Euros."  />
-                    <br></br> 
-                    <br></br>  
-                    <h:outputLabel value="#{msg.tarifa_m7}#{msg.IBAN}"  />
-                    <br></br> 
-                    <br></br>  
-                    <h:outputLabel value="#{msg.tarifa_m8}"  />
-                    <br></br> 
-                    <br></br>  
-                    <h:outputLabel value="#{msg.tarifa_m9}"  />
-                    <br></br> 
-                    <br></br>  
-                    <h:outputLabel value="#{msg.tarifa_m10}"  />
-                </td> 
-                </tr>
-                <tr>
-                    <td align="center">
+                    <h:panelGroup layout="block" style="margin-bottom: 10px;">
+                        <h:outputLabel styleClass="confirmacion-header" value="#{msg.confirmacion1}"  />
+                        <h:outputLabel styleClass="confirmacion-id" value="#{newJSFManagedBean.inscripcionActual.getIdInscripcion().toString()}"  />
+                    </h:panelGroup>
+
+                    <h:panelGroup layout="block" style="margin-bottom: 15px;">
+                        <h:outputLabel styleClass="confirmacion-header" value="#{msg.confirmacion2}"  />
+                        <h:outputLabel styleClass="confirmacion-importe" value="#{newJSFManagedBean.inscripcionActual.getImporteTotal().toString()}"  />
+                        <h:outputLabel styleClass="confirmacion-header" value=" Euros."  />
+                    </h:panelGroup>
+
+                    <p:staticMessage severity="info" summary="INFO" detail="#{msg.tarifa_m7} #{msg.IBAN}" style="width: 100%; margin-bottom: 10px;"/>
                     
-                        
-                      
-                          <a href="https://unianticapi.info">
-    <input type="button" value="Salir" />
-</a>
-                        
-     </td>
-            </tr>
-        </table>
-    </h:form>
-        
-        <table align="center">
-            <tr>
-                <td>
-                     <h:outputLabel value="#{msg.paypal}"  />
-                   
-                </td>
-            </tr>
-            <tr>
-                <td>
-                    <form action="https://www.paypal.com/cgi-bin/webscr" method="post" target="_top">
-                        <input type="hidden" name="cmd" value="_xclick"/>
-                        <input type="hidden" name="business" value="XAMZDHW4HH8PU"/>
-                        <input type="hidden" name="lc" value="ES"/>
-                        <input type="hidden" name="button_subtype" value="services"/>
-                        <input type="hidden" name="no_note" value="1"/>
-                        <input type="hidden" name="no_shipping" value="1"/>
-                        <input type="hidden" name="rm" value="1"/>
-                        <input type="hidden" name="item_name" value="#{newJSFManagedBean.inscripcionActual.getIdInscripcion().toString()}"/>
-                        <input type="hidden" name="amount" value="#{newJSFManagedBean.inscripcionActual.getImporteTotal().toString()}"/>
-                        <input type="hidden" name="return" value="https://unianticapi.info"/>
-                        <input type="hidden" name="cancel_return" value="https://inscripcion.unianticapi.info:8181/NOK.xhtml"/>
-                        <input type="hidden" name="currency_code" value="EUR"/>
-                        <input type="hidden" name="bn" value="PP-BuyNowBF:btn_buynowCC_LG.gif:NonHosted"/>
-                        <input type="image" src="https://www.paypalobjects.com/es_ES/ES/i/btn/btn_buynowCC_LG.gif" name="submit" alt="PayPal. La forma rápida y segura de pagar en Internet."/>
-                        <img alt="" border="0" src="https://www.paypalobjects.com/es_ES/i/scr/pixel.gif" width="1" height="1"/>
-                    </form> 
-                </td>
-            </tr>
-        </table>
+                    <h:panelGroup layout="block" style="margin-top: 15px;">
+                        <h:outputText value="#{msg.tarifa_m8}" style="display:block; margin-bottom: 8px;" />
+                        <h:outputText value="#{msg.tarifa_m9}" style="display:block; margin-bottom: 8px;" />
+                        <h:outputText value="#{msg.tarifa_m10}" style="display:block;" />
+                    </h:panelGroup>
+                </h:panelGroup>
+
+                <p:button value="Salir" onclick="window.location.href='https://unianticapi.info'; return false;" styleClass="btn-salir" />
+            </p:panelGrid>
+        </h:form>
+
+        <div class="paypal-container">
+            <h:outputLabel value="#{msg.paypal}" style="display:block; margin-bottom: 15px; font-weight: bold;"  />
+            
+            <form action="https://www.paypal.com/cgi-bin/webscr" method="post" target="_top">
+                <input type="hidden" name="cmd" value="_xclick"/>
+                <input type="hidden" name="business" value="XAMZDHW4HH8PU"/>
+                <input type="hidden" name="lc" value="ES"/>
+                <input type="hidden" name="button_subtype" value="services"/>
+                <input type="hidden" name="no_note" value="1"/>
+                <input type="hidden" name="no_shipping" value="1"/>
+                <input type="hidden" name="rm" value="1"/>
+                <input type="hidden" name="item_name" value="#{newJSFManagedBean.inscripcionActual.getIdInscripcion().toString()}"/>
+                <input type="hidden" name="amount" value="#{newJSFManagedBean.inscripcionActual.getImporteTotal().toString()}"/>
+                <input type="hidden" name="return" value="https://unianticapi.info"/>
+                <input type="hidden" name="cancel_return" value="https://inscripcion.unianticapi.info:8181/NOK.xhtml"/>
+                <input type="hidden" name="currency_code" value="EUR"/>
+                <input type="hidden" name="bn" value="PP-BuyNowBF:btn_buynowCC_LG.gif:NonHosted"/>
+                <input type="image" src="https://www.paypalobjects.com/es_ES/ES/i/btn/btn_buynowCC_LG.gif" name="submit" alt="PayPal. La forma rápida y segura de pagar en Internet." style="max-width: 100%; height: auto;"/>
+                <img alt="" border="0" src="https://www.paypalobjects.com/es_ES/i/scr/pixel.gif" width="1" height="1"/>
+            </form>
+        </div>
          </f:view>
     </h:body>
 </html>
